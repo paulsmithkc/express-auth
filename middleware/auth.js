@@ -74,7 +74,7 @@ function handleAuth(req, res, authSecret, cookieName, cookieOptions) {
  * @param {string} secret the secret used to sign the JWT token (required)
  * @param {string} cookieName the name of the cookie that holds the token (optional)
  * @param {object} cookieOptions the options to use for refreshing the token (optional)
- * @returns {RequestHandler}
+ * @returns {RequestHandler} middleware
  */
 function auth(secret, cookieName, cookieOptions) {
   if (!secret) {
