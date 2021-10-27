@@ -1,3 +1,4 @@
+const debug = require('debug')('express:middleware:auth');
 const { RequestHandler } = require('express');
 
 /**
@@ -7,7 +8,9 @@ const { RequestHandler } = require('express');
 function isLoggedIn() {
   return (req, res, next) => {
     if (!req.auth) {
-      return next({ status: 401, message: 'You are not logged in!' });
+      const error = { status: 401, message: 'You are not logged in!' };
+      debug(error.message);
+      return next(error);
     } else {
       return next();
     }

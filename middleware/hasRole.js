@@ -1,3 +1,4 @@
+const debug = require('debug')('express:middleware:auth');
 const { RequestHandler } = require('express');
 
 /**
@@ -7,12 +8,16 @@ const { RequestHandler } = require('express');
 function hasRole(...allowedRoles) {
   return (req, res, next) => {
     if (!req.auth) {
-      return next({ status: 401, message: 'You are not logged in!' });
+      const error = { status: 401, message: 'You are not logged in!' };
+      debug(error.message);
+      return next(error);
     } else if (!req.auth.role) {
-      return next({
+      const error = {
         status: 403,
         message: 'You do not have one of the allowed roles!',
-      });
+      };
+      debug(error.message);
+      return next(error);
     } else {
       const authRoles = Array.isArray(req.auth.role)
         ? req.auth.role
@@ -35,10 +40,12 @@ function hasRole(...allowedRoles) {
       }
 
       // user is not in any of the allowed groups
-      return next({
+      const error = {
         status: 403,
         message: 'You do not have one of the allowed roles!',
-      });
+      };
+      debug(error.message);
+      return next(error);
     }
   };
 }

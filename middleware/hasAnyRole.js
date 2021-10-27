@@ -1,3 +1,4 @@
+const debug = require('debug')('express:middleware:auth');
 const { RequestHandler } = require('express');
 
 /**
@@ -7,12 +8,16 @@ const { RequestHandler } = require('express');
 function hasAnyRole() {
   return (req, res, next) => {
     if (!req.auth) {
-      return next({ status: 401, message: 'You are not logged in!' });
+      const error = { status: 401, message: 'You are not logged in!' };
+      debug(error.message);
+      return next(error);
     } else if (!req.auth.role) {
-      return next({
+      const error = {
         status: 403,
         message: 'You have not been assigned a role!',
-      });
+      };
+      debug(error.message);
+      return next(error);
     } else if (typeof req.auth.role === 'string') {
       return next();
     } else {
@@ -26,10 +31,12 @@ function hasAnyRole() {
         }
       }
       // array contains no values
-      return next({
+      const error = {
         status: 403,
         message: 'You have not been assigned a role!',
-      });
+      };
+      debug(error.message);
+      return next(error);
     }
   };
 }
