@@ -1,0 +1,46 @@
+{
+  "name": "express-auth",
+  "version": "0.0.1",
+  "description": "Collection of authentication and authorization middleware functions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "auth",
+    "authentication",
+    "authorization",
+    "jwt",
+    "jsonwebtoken",
+    "cookie",
+    "auth-header",
+    "role",
+    "permission"
+  ],
+  "author": "Paul Smith",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulsmithkc/express-auth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/paulsmithkc/express-auth/issues"
+  },
+  "homepage": "https://github.com/paulsmithkc/express-auth#readme",
+  "devDependencies": {
+    "config": "^3.3.6",
+    "cookie-parser": "^1.4.5",
+    "debug": "^4.3.2",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "peerDependencies": {
+    "express": "^4.17.1"
+  },
+  "dependencies": {
+    "debug": "^4.3.2",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
