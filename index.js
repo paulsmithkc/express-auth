@@ -4,4 +4,5 @@ module.exports = {
   hasAnyRole: require('./middleware/hasAnyRole'),
   hasRole: require('./middleware/hasRole'),
   hasPermission: require('./middleware/hasPermission'),
+  mergePermissions: require('./lib/mergePermissions'),
 };
