@@ -101,4 +101,159 @@ app.get('/api/auth/me', (req, res) => {
 
 ## isLoggedIn middleware
 
-The **isLoggedIn** middleware will check that the user is logged in, and send a 
+*Requires **authMiddleware** to be installed first.*
+
+The **isLoggedIn** middleware checks that the user is logged in. It will send a 401 error if the user is not authenticated.
+
+**Example:** Allow **authenticated users** to access the route.
+```js
+const { isLoggedIn } = require('@merlin4/express-auth');
+
+app.get('/api/auth/me', isLoggedIn(), (req, res) => {
+  const auth = req.auth;
+  // ...
+});
+```
+
+## hasAnyRole middleware
+
+*Requires **authMiddleware** to be installed first.*
+
+The **hasAnyRole** middleware checks that the user is logged in and has at least one role. It will send a 401 error if the user is not authenticated. It will send a 403 error if the user has no roles.
+
+**Example:** Allow users with **any role** to access the route.
+```js
+const { hasAnyRole } = require('@merlin4/express-auth');
+
+app.get('/api/auth/me', hasAnyRole(), (req, res) => {
+  const auth = req.auth;
+  const authRole = req.auth.role;
+  // ...
+});
+```
+
+## hasRole middleware
+
+*Requires **authMiddleware** to be installed first.*
+
+The **hasRole** middleware checks that the user is logged in and has one of the allowed roles. It will send a 401 error if the user is not authenticated. It will send a 403 error if the user does not have one of the allowed roles.
+
+**Example:** Allow **admins** to access this route.
+```js
+const { hasRole } = require('@merlin4/express-auth');
+
+app.get('/api/admin', hasRole('admin'), (req, res) => {
+  const auth = req.auth;
+  const authRole = req.auth.role;
+  // ...
+});
+```
+
+**Example:** Allow users with either the **admin or moderator** role to access this route.
+```js
+const { hasRole } = require('@merlin4/express-auth');
+
+app.get('/api/mod', hasRole('admin', 'moderator'), (req, res) => {
+  const auth = req.auth;
+  const authRole = req.auth.role;
+  // ...
+});
+```
+
+## hasPermission middleware
+
+*Requires **authMiddleware** to be installed first.*
+
+The **hasPermission** middleware checks the user has at least one of the listed permissions. It will send a 401 error if the user is not authenticated. It will send a 403 error if the user does not have one of the listed permissions.
+
+**Example:** Allow users with the **manageUsers** permission to access this route.
+```js
+const { hasRole } = require('@merlin4/express-auth');
+
+app.get('/api/user/list', hasPermission('manageUsers'), (req, res) => {
+  const auth = req.auth;
+  const permissions = req.auth.permissions;
+  // ...
+});
+```
+
+**Example:** Allow users with either the **viewUsers or editUsers** permission to access this route.
+```js
+const { hasRole } = require('@merlin4/express-auth');
+
+app.get('/api/user/list', hasPermission('viewUsers', 'editUsers'), (req, res) => {
+  const auth = req.auth;
+  const permissions = req.auth.permissions;
+  // ...
+});
+```
+
+## fetchRoles utility function
+
+The **fetchRoles** function will read the assigned roles from a user document and fetch all of roles from a data source, in parallel.
+
+**Example:** Fetch the user from the database, and then fetch all of the assigned roles.
+```js
+const { fetchRoles } = require('@merlin4/express-auth');
+const user = await db.findUserById(userId);
+const roles = await fetchRoles(user, role => db.findRoleByName(role));
+```
+
+This function assumes that the user has a **"role"** field which specifies their role(s). 
+The user object may be in any of the following states:
+
+User has **no role:**
+```js
+{ ...userData, role: null }
+```
+
+User has **a role:**
+```js
+{ ...userData, role: "admin" }
+```
+User has **an array of roles:**
+```js
+{ ...userData, role: ["admin", "manager"] }
+```
+
+User has **a map of roles:**
+```js
+{ ...userData, role: { admin: true, manager: true, editor: false } }
+```
+
+All of the above data structures are supported by **fetchRoles**
+
+## mergePermissions utility function
+
+The **mergePermissions** will merge the permissions of the user and their assigned roles into a combined permissions map.
+
+**Example:** Fetch the user from the database, fetch all of the assigned roles, and then merge all of the permission maps.
+```js
+const { fetchRoles, mergePermissions } = require('@merlin4/express-auth');
+const user = await db.findUserById(userId);
+const roles = await fetchRoles(user, role => db.findRoleByName(role));
+const permissions = mergePermissions(user, roles);
+```
+
+This will read any user specific permissions from the user document, such as:
+
+```js
+{ ...userData, permissions: { canLogin: true } }
+```
+
+It will also read any permissions granted by a role, such as:
+```js
+[
+  { name: 'Technical Manager', permissions: { manageUsers: true } },
+  { name: 'Product Manager', permissions: { manageProducts: true } }
+}
+```
+
+The combined permissions map would be as follows, for the data above:
+```js
+{
+  canLogin: true,
+  manageUsers: true,
+  manageProducts: true
+}
+```
