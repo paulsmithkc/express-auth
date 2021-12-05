@@ -17,10 +17,11 @@ function hasPermission(...allowedPermissions) {
       debug(error.message);
       return next(error);
     } else {
+      const authPermissions = req.auth.permissions;
       if (allowedPermissions.length > 0) {
         // check that the user has any of the listed permissions
         for (const permission of allowedPermissions) {
-          if (req.auth.permissions[permission] === true) {
+          if (authPermissions[permission] === true) {
             debug(`user has permission: ${permission}`);
             return next();
           }
@@ -31,8 +32,8 @@ function hasPermission(...allowedPermissions) {
         return next(error);
       } else {
         // check if the user has any permissions
-        for (const permission in req.auth.permissions) {
-          if (req.auth.permissions[permission] === true) {
+        for (const permission in authPermissions) {
+          if (authPermissions[permission] === true) {
             debug(`user has permission: ${permission}`);
             return next();
           }
