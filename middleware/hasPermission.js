@@ -3,10 +3,10 @@ const { RequestHandler } = require('express');
 const newError = require('../lib/newError.js');
 
 /**
- * Check if the user has all of the listed permissions.
+ * Check if the user has at least one of the listed permissions.
  * @returns {RequestHandler} middleware
  */
-function hasPermission(...requiredPermissions) {
+function hasPermission(...allowedPermissions) {
   return (req, res, next) => {
     if (!req.auth) {
       const error = newError(401, 'You are not logged in!');
@@ -17,16 +17,31 @@ function hasPermission(...requiredPermissions) {
       debug(error.message);
       return next(error);
     } else {
-      // check that the user has all required permissions
-      for (const permission of requiredPermissions) {
-        if (!req.auth.permissions[permission]) {
-          const error = newError(403, `You do not have permission ${permission}!`);
-          debug(error.message);
-          return next(error);
+      if (allowedPermissions.length > 0) {
+        // check that the user has any of the listed permissions
+        for (const permission of allowedPermissions) {
+          if (req.auth.permissions[permission] === true) {
+            debug(`user has permission: ${permission}`);
+            return next();
+          }
         }
+        // user does not have any of the listed permissions
+        const error = newError(403, `You do not have any of these permissions: ${allowedPermissions.join(', ')}`);
+        debug(error.message);
+        return next(error);
+      } else {
+        // check if the user has any permissions
+        for (const permission in req.auth.permissions) {
+          if (req.auth.permissions[permission] === true) {
+            debug(`user has permission: ${permission}`);
+            return next();
+          }
+        }
+        // user does not have any permissions
+        const error = newError(403, 'You do not have any permissions!');
+        debug(error.message);
+        return next(error);
       }
-      // user has all required permissions
-      return next();
     }
   };
 }
