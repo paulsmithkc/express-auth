@@ -1,5 +1,6 @@
 const debug = require('debug')('express:middleware:auth');
 const { RequestHandler } = require('express');
+const newError = require('../lib/newError.js');
 
 /**
  * Check if the user has at least one role.
@@ -8,14 +9,11 @@ const { RequestHandler } = require('express');
 function hasAnyRole() {
   return (req, res, next) => {
     if (!req.auth) {
-      const error = { status: 401, message: 'You are not logged in!' };
+      const error = newError(401, 'You are not logged in!');
       debug(error.message);
       return next(error);
     } else if (!req.auth.role) {
-      const error = {
-        status: 403,
-        message: 'You have not been assigned a role!',
-      };
+      const error = newError(403, 'You have not been assigned a role!');
       debug(error.message);
       return next(error);
     } else if (typeof req.auth.role === 'string') {
@@ -31,10 +29,7 @@ function hasAnyRole() {
         }
       }
       // array contains no values
-      const error = {
-        status: 403,
-        message: 'You have not been assigned a role!',
-      };
+      const error = newError(403, 'You have not been assigned a role!');
       debug(error.message);
       return next(error);
     }
