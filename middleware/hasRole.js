@@ -13,7 +13,7 @@ function hasRole(...allowedRoles) {
       debug(error.message);
       return next(error);
     } else if (!req.auth.role) {
-      const error = newError(403, 'You do not have any roles!');
+      const error = newError(403, 'You have not been assigned a role!');
       debug(error.message);
       return next(error);
     } else {
@@ -56,7 +56,7 @@ function hasRole(...allowedRoles) {
           }
         }
         // user does not have any roles
-        const error = newError(403, 'You do not have any roles!');
+        const error = newError(403, 'You have not been assigned a role!');
         debug(error.message);
         return next(error);
       }
