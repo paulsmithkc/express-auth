@@ -1,5 +1,10 @@
 {
   "cSpell.words": [
-    "paulsmith"
-  ]
+    "paulsmith",
+    "merlin4"
+  ],
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.tabWidth": 2
 }
