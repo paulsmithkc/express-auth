@@ -1,5 +1,5 @@
 {
-  "name": "express-auth",
+  "name": "@paulsmith/express-auth",
   "version": "0.0.1",
   "description": "Collection of authentication and authorization middleware functions.",
   "main": "index.js",
