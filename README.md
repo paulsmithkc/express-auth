@@ -16,7 +16,7 @@ Install peer dependencies, if needed.
 npm install express cookie-parser jsonwebtoken config
 ```
 
-## Usage: authMiddleware
+## authMiddleware
 
 ### global installation
 
@@ -70,7 +70,9 @@ We recommend using the [config](https://www.npmjs.com/package/config) package to
 
 ```js
 const config = require('config');
+const cookieParser = require('cookie-parser');
 const { authMiddleware } = require('@merlin4/express-auth');
+app.use(cookieParser());
 app.use(
   authMiddleware(
     config.get('auth.secret'), 
@@ -96,3 +98,7 @@ app.get('/api/auth/me', (req, res) => {
   // ...
 });
 ```
+
+## isLoggedIn middleware
+
+The **isLoggedIn** middleware will check that the user is logged in, and send a 
