@@ -65,6 +65,7 @@ function handleAuth(req, res, authSecret, cookieName, cookieOptions) {
         // refresh auth cookie
         res.cookie(cookieName, authCookie, cookieOptions);
       }
+      return auth;
     }
   }
 }
@@ -74,15 +75,15 @@ function handleAuth(req, res, authSecret, cookieName, cookieOptions) {
  * @param {string} secret the secret used to sign the JWT token (required)
  * @param {string} cookieName the name of the cookie that holds the token (optional)
  * @param {object} cookieOptions the options to use for refreshing the token (optional)
- * @returns {RequestHandler} middleware
+ * @returns {RequestHandler} authentication middleware
  */
-function auth(secret, cookieName, cookieOptions) {
+function auth(secret, cookieName = null, cookieOptions = null) {
   if (!secret) {
     throw new Error('secret is required.');
   }
 
   return (req, res, next) => {
-    const auth = parseAuth(req, res, secret, cookieName, cookieOptions);
+    const auth = handleAuth(req, res, secret, cookieName, cookieOptions);
     if (auth) {
       req.auth = auth;
     }
