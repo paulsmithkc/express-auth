@@ -13,32 +13,53 @@ function hasRole(...allowedRoles) {
       debug(error.message);
       return next(error);
     } else if (!req.auth.role) {
-      const error = newError(403, 'You do not have one of the allowed roles!');
+      const error = newError(403, 'You do not have any roles!');
       debug(error.message);
       return next(error);
     } else {
-      const authRoles = Array.isArray(req.auth.role) ? req.auth.role : [req.auth.role];
+      const authRole = req.auth.role;
+      const authRoleMap = {};
+      if (Array.isArray(authRole)) {
+        for (const role of authRole) {
+          if (role) {
+            authRoleMap[role] = true;
+          }
+        }
+      } else if (typeof authRole === 'object') {
+        for (const role in authRole) {
+          if (authRole[role] === true) {
+            authRoleMap[role] = true;
+          }
+        }
+      } else if (typeof authRole === 'string') {
+        authRoleMap[authRole] = true;
+      }
 
       if (allowedRoles.length > 0) {
         // check if the user has any of the allowed roles
         for (const role of allowedRoles) {
-          if (authRoles.includes(role)) {
+          if (authRoleMap[role] === true) {
+            debug(`user has role: ${role}`);
             return next();
           }
         }
+        // user is not in any of the allowed groups
+        const error = newError(403, `You do not have any of these roles: ${allowedRoles.join(', ')}`);
+        debug(error.message);
+        return next(error);
       } else {
         // check if the user has any roles
-        for (const role of authRoles) {
-          if (role) {
+        for (const role in authRoleMap) {
+          if (authRoleMap[role] === true) {
+            debug(`user has role: ${role}`);
             return next();
           }
         }
+        // user does not have any roles
+        const error = newError(403, 'You do not have any roles!');
+        debug(error.message);
+        return next(error);
       }
-
-      // user is not in any of the allowed groups
-      const error = newError(403, 'You do not have one of the allowed roles!');
-      debug(error.message);
-      return next(error);
     }
   };
 }
