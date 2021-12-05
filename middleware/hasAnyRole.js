@@ -16,19 +16,31 @@ function hasAnyRole() {
       const error = newError(403, 'You have not been assigned a role!');
       debug(error.message);
       return next(error);
-    } else if (typeof req.auth.role === 'string') {
-      return next();
     } else {
-      // check if the array of roles contains any values
-      const authRoles = req.auth.role;
-      if (Array.isArray(authRoles)) {
-        for (const role of authRoles) {
+      const authRole = req.auth.role;
+      if (typeof authRole === 'string') {
+        // user has a single role
+        debug(`user has role: ${role}`);
+        return next();
+      } else if (Array.isArray(authRole)) {
+        // check if the array of roles contains any values
+        for (const role of authRole) {
           if (role) {
+            debug(`user has role: ${role}`);
+            return next();
+          }
+        }
+      } else if (typeof authRole === 'object') {
+        // check if the object includes any true keys
+        for (const role in authRole) {
+          if (authRole[role] === true) {
+            debug(`user has role: ${role}`);
             return next();
           }
         }
       }
-      // array contains no values
+
+      // user does not have any roles
       const error = newError(403, 'You have not been assigned a role!');
       debug(error.message);
       return next(error);

@@ -19,7 +19,9 @@ function hasRole(...allowedRoles) {
     } else {
       const authRole = req.auth.role;
       const authRoleMap = {};
-      if (Array.isArray(authRole)) {
+      if (typeof authRole === 'string') {
+        authRoleMap[authRole] = true;
+      } else if (Array.isArray(authRole)) {
         for (const role of authRole) {
           if (role) {
             authRoleMap[role] = true;
@@ -31,8 +33,6 @@ function hasRole(...allowedRoles) {
             authRoleMap[role] = true;
           }
         }
-      } else if (typeof authRole === 'string') {
-        authRoleMap[authRole] = true;
       }
 
       if (allowedRoles.length > 0) {
