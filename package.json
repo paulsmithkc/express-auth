@@ -2,6 +2,7 @@
   "name": "@paulsmith/express-auth",
   "version": "0.0.1",
   "description": "Collection of authentication and authorization middleware functions.",
+  "private": false,
   "main": "index.js",
   "keywords": [
     "express",
