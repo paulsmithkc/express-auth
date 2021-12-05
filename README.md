@@ -7,7 +7,7 @@ Collection of authentication and authorization middleware functions.
 Install this package.
 
 ```bash
-npm install @paulsmith/express-auth
+npm install @merlin4/express-auth
 ```
 
 Install peer dependencies, if needed.
@@ -26,7 +26,7 @@ via either an "Authorization" header with type "Bearer", or optionally via a coo
 Install this middleware in your application entry point (index.js/server.js/app.js):
 
 ```js
-const { authMiddleware } = require('@paulsmith/express-auth');
+const { authMiddleware } = require('@merlin4/express-auth');
 app.use(
   authMiddleware('my super secret key', 'authToken', {
     httpOnly: true,
@@ -49,7 +49,7 @@ The **cookieName** will be used to parse the token from a cookie, when no "Autho
 
 ```js
 const cookieParser = require('cookie-parser');
-const { authMiddleware } = require('@paulsmith/express-auth');
+const { authMiddleware } = require('@merlin4/express-auth');
 app.use(cookieParser());
 app.use(authMiddleware('my super secret key', 'authToken'));
 ```
@@ -70,7 +70,7 @@ We recommend using the [config](https://www.npmjs.com/package/config) package to
 
 ```js
 const config = require('config');
-const { authMiddleware } = require('@paulsmith/express-auth');
+const { authMiddleware } = require('@merlin4/express-auth');
 app.use(
   authMiddleware(
     config.get('auth.secret'), 
