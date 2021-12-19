@@ -1,7 +1,14 @@
 {
   "cSpell.words": [
-    "paulsmith",
-    "merlin4"
+    "authmiddleware",
+    "fetchroles",
+    "hasanyrole",
+    "haspermission",
+    "hasrole",
+    "isloggedin",
+    "mergepermissions",
+    "merlin4",
+    "reqauth"
   ],
   "prettier.printWidth": 120,
   "prettier.singleQuote": true,

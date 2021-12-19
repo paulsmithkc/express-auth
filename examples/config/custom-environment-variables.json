@@ -1,0 +1,12 @@
+{
+  "env": "NODE_ENV",
+  "debug": "DEBUG",
+  "http": {
+    "host": "HOSTNAME",
+    "port": "PORT"
+  },
+  "auth": {
+    "secret": "AUTH_SECRET",
+    "expiresIn": "AUTH_EXPIRES_IN"
+  }
+}

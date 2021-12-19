@@ -1,0 +1,12 @@
+{
+  "env": "development",
+  "debug": "",
+  "http": {
+    "host": "localhost",
+    "port": "5000"
+  },
+  "auth": {
+    "secret": "MY SECRET",
+    "expiresIn": "24h"
+  }
+}

@@ -4,6 +4,9 @@
   "description": "Collection of authentication and authorization middleware functions.",
   "private": false,
   "main": "index.js",
+  "scripts": {
+    "example": "npx nodemon ./examples/server.js"
+  },
   "keywords": [
     "express",
     "auth",
