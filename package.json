@@ -1,6 +1,6 @@
 {
   "name": "@merlin4/express-auth",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Collection of authentication and authorization middleware functions.",
   "private": false,
   "main": "index.js",
