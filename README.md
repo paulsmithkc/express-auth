@@ -16,9 +16,24 @@ Install peer dependencies, if needed.
 npm install express cookie-parser jsonwebtoken config
 ```
 
+## Table of Contents
+
+- Middleware
+  - [authMiddleware](#authmiddleware)
+    - [installation](#installation)
+    - [configuration](#configuration)
+    - [req.auth](#reqauth)
+  - [isLoggedIn](#isloggedin-middleware)
+  - [hasAnyRole](#hasanyrole-middleware)
+  - [hasRole](#hasrole-middleware)
+  - [hasPermission](#haspermission-middleware)
+- Utility Functions
+  - [fetchRoles](#fetchroles-utility-function)
+  - [mergePermissions](#mergepermissions-utility-function)
+
 ## authMiddleware
 
-### global installation
+### installation
 
 The authentication middleware will parse a Json Web Token (JWT) provided by the client,
 via either an "Authorization" header with type "Bearer", or optionally via a cookie.
@@ -86,7 +101,7 @@ app.use(
 );
 ```
 
-### usage in routes
+### req.auth
 
 Once the middleware is installed and configured in the application. A new field will be accessible on the **Request** object to your other routes.
 
@@ -225,7 +240,7 @@ All of the above data structures are supported by **fetchRoles**
 
 ## mergePermissions utility function
 
-The **mergePermissions** will merge the permissions of the user and their assigned roles into a combined permissions map.
+The **mergePermissions** function will merge the permissions of the user and their assigned roles into a combined permissions map.
 
 **Example:** Fetch the user from the database, fetch all of the assigned roles, and then merge all of the permission maps.
 ```js
