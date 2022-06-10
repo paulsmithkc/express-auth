@@ -94,8 +94,8 @@ app.use(
     config.get('auth.cookie.name'), 
     {
       maxAge: parseInt(config.get('auth.cookie.maxAge')),
-      httpOnly: parseInt(config.get('auth.cookie.httpOnly')),
-      secure: parseInt(config.get('auth.cookie.secure')),
+      httpOnly: config.get('auth.cookie.httpOnly'),
+      secure: config.get('auth.cookie.secure'),
     }
   )
 );
