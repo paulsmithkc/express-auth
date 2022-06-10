@@ -60,7 +60,7 @@ The constructor for this middleware accepts 3 arguments:
 
 The **secret** is required to verify the token. This middleware will throw an exception on startup, if it not provided.
 
-The **cookieName** will be used to parse the token from a cookie, when no "Authorization" is provided. Note that you will need to install a cookie parser beforehand to parse the cookies. (Example shown below.)
+The **cookieName** will be used to parse the token from a cookie, when no "Authorization" header is provided. Note that you will need to install a cookie parser beforehand to parse the cookies. (Example shown below.)
 
 ```js
 const cookieParser = require('cookie-parser');
