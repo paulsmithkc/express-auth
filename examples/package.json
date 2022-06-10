@@ -1,0 +1,11 @@
+{
+  "name": "@merlin4/express-auth-examples",
+  "private": true,
+  "description": "Example project for @merlin4/express-auth",
+  "scripts": {
+    "example": "npx nodemon -r dotenv/config server.js",
+    "example-esm": "npx nodemon -r dotenv/config server.mjs"
+  },
+  "author": "Paul Smith",
+  "license": "MIT"
+}

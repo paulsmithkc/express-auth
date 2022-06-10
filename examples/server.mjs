@@ -1,13 +1,14 @@
-const dotenv = require('dotenv');
-const path = require('path');
+import dotenv from 'dotenv';
+import path from 'path';
 dotenv.config({ path: path.resolve('./.env') });
 
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const config = require('config');
-const jwt = require('jsonwebtoken');
-const debug = require('debug')('app:server');
-const {
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import config from 'config';
+import jwt from 'jsonwebtoken';
+import debug from 'debug';
+
+import {
   authMiddleware,
   isLoggedIn,
   hasAnyRole,
@@ -15,7 +16,10 @@ const {
   hasPermission,
   fetchRoles,
   mergePermissions,
-} = require('../index.js');
+}  from '../index.mjs';
+
+// create debug channel
+const debugServer = debug('app:server');
 
 // create application
 const app = express();
@@ -96,7 +100,7 @@ app.use((req, res, next) => {
   return res.status(404).json({ error: req.originalUrl + ' not found!' });
 });
 app.use((err, req, res, next) => {
-  debug(err);
+  debugServer(err);
   return res.status(err.status || 500).json({ error: err.message || 'Unhandled Error!' });
 });
 
@@ -104,5 +108,5 @@ app.use((err, req, res, next) => {
 const hostname = config.get('http.host');
 const port = config.get('http.port');
 app.listen(port, () => {
-  debug(`Listening at http://${hostname}:${port}`);
+  debugServer(`Listening at http://${hostname}:${port}`);
 });
