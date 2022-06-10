@@ -1,6 +1,6 @@
 {
   "name": "@merlin4/express-auth",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Collection of authentication and authorization middleware functions.",
   "private": false,
   "main": "index.js",
@@ -10,7 +10,8 @@
     "import": "./index.mjs"
   },
   "scripts": {
-    "example": "npx nodemon ./examples/server.js"
+    "example": "npx nodemon ./examples/server.js",
+    "example-esm": "npx nodemon ./examples/server.mjs"
   },
   "keywords": [
     "express",

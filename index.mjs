@@ -1,12 +1,12 @@
-import authMiddleware from './middleware/auth';
-import isLoggedIn from './middleware/isLoggedIn';
-import hasAnyRole from './middleware/hasAnyRole';
-import hasRole from './middleware/hasRole';
-import hasPermission from './middleware/hasPermission';
-import fetchRoles from './lib/fetchRoles';
-import mergePermissions from './lib/mergePermissions';
+import authMiddleware from './middleware/auth.js';
+import isLoggedIn from './middleware/isLoggedIn.js';
+import hasAnyRole from './middleware/hasAnyRole.js';
+import hasRole from './middleware/hasRole.js';
+import hasPermission from './middleware/hasPermission.js';
+import fetchRoles from './lib/fetchRoles.js';
+import mergePermissions from './lib/mergePermissions.js';
 
-export default {
+export {
   authMiddleware,
   isLoggedIn,
   hasAnyRole,
