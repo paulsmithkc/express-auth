@@ -13,7 +13,7 @@ const {
   hasPermission,
   fetchRoles,
   mergePermissions,
-} = require('../index');
+} = require('../index.js');
 
 // create application
 const app = express();
